@@ -5,12 +5,13 @@ from recommend import recommend_tracks
 
 
 def main():
-    data = load_dataset("data/dataset.csv")
-    processed_data = preprocess_data(data)
-    model = train_model(processed_data)
-    recommendations = recommend_tracks(model, processed_data)
-
-    print(recommendations)
+    # data = load_dataset("data/dataset.csv")
+    # processed_data = preprocess_data(data)
+    # model = train_model(processed_data)
+    # recommendations = recommend_tracks(model, processed_data)
+    #
+    # print(recommendations)
+    pass
 
 
 if __name__ == "__main__":

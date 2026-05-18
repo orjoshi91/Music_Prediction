@@ -8,7 +8,7 @@ def preprocess_data(df,feature_cols):
     scaler = StandardScaler()
     X_scale = scaler.fit_transform(X)
     encoder = LabelEncoder()
-    y_int = LabelEncoder().fit_transform(y)
+    y_int = encoder.fit_transform(y)
 
     X_train, X_test, y_train, y_test = train_test_split(
         X_scale,y_int,test_size=0.2,
@@ -22,4 +22,4 @@ def preprocess_data(df,feature_cols):
     print("Train shape:", X_train.shape)
     print("Test shape:", X_test.shape)
 
-    return X_train, X_test, y_train, y_test, StandardScaler(), LabelEncoder()
+    return X_train, X_test, y_train, y_test, scaler, encoder

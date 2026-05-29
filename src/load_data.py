@@ -4,17 +4,23 @@ def load_dataset(filepath):
     # Read the CSV file into a pandas dataframe
     df = pd.read_csv(filepath)
 
-    # These are the audio features we will use to train our model
+    # These are the numeric track features we will use to train our model
     feature_cols = [
+        'popularity',
+        'duration_ms',
+        'explicit',
         'danceability',     # How suitable a track is for dancing
         'energy',           # Intensity and activity of the track
+        'key',
         'loudness',         # Overall loudness in decibels
+        'mode',
         'speechiness',      # Presence of spoken words
         'acousticness',     # How acoustic the track is
         'instrumentalness', # Whether a track has no vocals
         'liveness',         # Presence of a live audience
         'valence',          # Musical positiveness of the track
-        'tempo'             # Speed of the track in BPM
+        'tempo',            # Speed of the track in BPM
+        'time_signature'
     ]
 
     # Remove rows where any feature value or genre is missing
@@ -29,6 +35,3 @@ def load_dataset(filepath):
     print(f"Sample:\n{df[feature_cols].head()}")
 
     return df, feature_cols
-
-# Call the function with the path to our dataset
-df, feature_cols = load_dataset('data/dataset.csv')

@@ -19,15 +19,15 @@ def build_model(input_size, num_classes, architecture='tuned'):
     else:
         model.add(Dense(512, activation='relu'))
         model.add(BatchNormalization())
-        model.add(Dropout(0.20))   # slightly reduced from 0.25
+        model.add(Dropout(0.20))
 
         model.add(Dense(256, activation='relu'))
         model.add(BatchNormalization())
-        model.add(Dropout(0.15))   # slightly reduced
+        model.add(Dropout(0.15))
 
         model.add(Dense(128, activation='relu'))
         model.add(BatchNormalization())
-        model.add(Dropout(0.10))   # light regularization only
+        model.add(Dropout(0.10))
 
         model.add(Dense(64, activation='relu'))
         model.add(Dense(48, activation='relu', name='song_embedding'))

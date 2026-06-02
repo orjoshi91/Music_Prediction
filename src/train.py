@@ -15,20 +15,24 @@ def build_model(input_size, num_classes, architecture='tuned'):
         model.add(Dense(64, activation='relu'))
         model.add(Dense(32, activation='relu', name='song_embedding'))
         learning_rate = 0.001
+
     else:
-        # Wider regularized layers improve capacity while reducing overfitting.
         model.add(Dense(512, activation='relu'))
         model.add(BatchNormalization())
-        model.add(Dropout(0.25))
+        model.add(Dropout(0.20))   # slightly reduced from 0.25
+
         model.add(Dense(256, activation='relu'))
         model.add(BatchNormalization())
-        model.add(Dropout(0.20))
+        model.add(Dropout(0.15))   # slightly reduced
+
         model.add(Dense(128, activation='relu'))
         model.add(BatchNormalization())
-        model.add(Dropout(0.15))
+        model.add(Dropout(0.10))   # light regularization only
+
         model.add(Dense(64, activation='relu'))
         model.add(Dense(48, activation='relu', name='song_embedding'))
-        learning_rate = 0.0008
+
+        learning_rate = 0.0007
 
     model.add(Dense(num_classes, activation='softmax'))
 
@@ -39,6 +43,7 @@ def build_model(input_size, num_classes, architecture='tuned'):
     )
 
     return model
+
 
 def train_model(
     X_train,
@@ -51,24 +56,23 @@ def train_model(
     epochs=40,
     batch_size=128
 ):
+
     model = build_model(X_train.shape[1], num_classes, architecture)
 
-    callbacks = []
-    if architecture != 'baseline':
-        callbacks = [
-            tf.keras.callbacks.EarlyStopping(
-                monitor='val_accuracy',
-                patience=8,
-                mode='max',
-                restore_best_weights=True
-            ),
-            tf.keras.callbacks.ReduceLROnPlateau(
-                monitor='val_loss',
-                factor=0.5,
-                patience=3,
-                min_lr=0.00005
-            )
-        ]
+    callbacks = [
+        tf.keras.callbacks.EarlyStopping(
+            monitor='val_accuracy',
+            patience=8,
+            mode='max',
+            restore_best_weights=True
+        ),
+        tf.keras.callbacks.ReduceLROnPlateau(
+            monitor='val_loss',
+            factor=0.5,
+            patience=3,
+            min_lr=1e-5
+        )
+    ]
 
     print(f"Training {architecture} model...\n")
     model.summary()
@@ -85,6 +89,7 @@ def train_model(
     )
 
     loss, accuracy = model.evaluate(X_test, y_test)
+
     best_val_accuracy = max(history.history.get('val_accuracy', [accuracy]))
     best_epoch = history.history.get('val_accuracy', [accuracy]).index(best_val_accuracy) + 1
 
@@ -95,8 +100,8 @@ def train_model(
         'best_epoch': best_epoch
     }
 
-    print("Best validation accuracy:", best_val_accuracy)
+    print("\nBest validation accuracy:", best_val_accuracy)
     print("Best epoch:", best_epoch)
-    print("Restored-weight test accuracy:", accuracy)
+    print("Test accuracy:", accuracy)
 
     return model, history, metrics

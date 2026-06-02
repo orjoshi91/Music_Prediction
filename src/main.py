@@ -50,10 +50,17 @@ def main():
     print(f"Hit rate@5: {recommendation_metrics['hit_rate_at_5']:.4f}")
     print(f"Precision@10: {recommendation_metrics['precision_at_10']:.4f}")
     print(f"Hit rate@10: {recommendation_metrics['hit_rate_at_10']:.4f}")
-    # recommendations = recommend_tracks(model, processed_data)
-    #
-    # print(recommendations)
-    pass
+    
+    print("\nTop Song Recommendations:\n")
+
+    recommendations = recommend_tracks(
+        "Blinding Lights",
+        embeddings,
+        processed_df,
+        top_n=5
+    )
+
+    print(recommendations)
 
 
 if __name__ == "__main__":

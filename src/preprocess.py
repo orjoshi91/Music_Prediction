@@ -120,7 +120,7 @@ GENRE_GROUPS = {
     'world-music': 'world_regional',
 }
 
-def preprocess_data(df, feature_cols, group_genres=True):
+def preprocess_data(df, feature_cols, group_genres=True, verbose=True):
     df = df.copy()
     target_col = 'genre_group' if group_genres else 'track_genre'
 
@@ -153,11 +153,12 @@ def preprocess_data(df, feature_cols, group_genres=True):
     y_train = encoder.fit_transform(y_train_raw)
     y_test = encoder.transform(y_test_raw)
     
-    print("Preprocessing complete")
-    print("Target column:", target_col)
-    print("Number of target classes:", len(encoder.classes_))
-    print("Train shape:", X_train.shape)
-    print("Test shape:", X_test.shape)
+    if verbose:
+        print("Preprocessing complete")
+        print("Target column:", target_col)
+        print("Number of target classes:", len(encoder.classes_))
+        print("Train shape:", X_train.shape)
+        print("Test shape:", X_test.shape)
 
     return X_train, X_test, y_train, y_test, scaler, encoder, X_scaled, df
 

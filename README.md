@@ -26,8 +26,30 @@ Install the project dependencies:
 pip install -r requirements.txt
 ```
 
-## Run
+## Train
 
 ```bash
 python src/main.py
+```
+
+This trains the model and saves song embeddings to `data/song_embeddings.npz`.
+
+## Recommend Without Retraining
+
+```bash
+python src/run_recommendation.py "Blinding Lights"
+```
+
+You can change how many songs are shown:
+
+```bash
+python src/run_recommendation.py "Blinding Lights" --top-n 10
+```
+
+The recommendation score blends neural embedding similarity, raw audio feature
+similarity, popularity similarity, and a small genre-group bonus. You can tune
+that blend from the command line:
+
+```bash
+python src/run_recommendation.py "Blinding Lights" --popularity-weight 0.30 --feature-weight 0.30 --embedding-weight 0.35 --genre-weight 0.05
 ```

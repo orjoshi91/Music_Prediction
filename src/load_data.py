@@ -1,6 +1,6 @@
 import pandas as pd
 
-def load_dataset(filepath):
+def load_dataset(filepath, verbose=True):
     # Read the CSV file into a pandas dataframe
     df = pd.read_csv(filepath)
 
@@ -29,9 +29,9 @@ def load_dataset(filepath):
     # Remove duplicate songs keeping only the first occurrence
     df = df.drop_duplicates(subset='track_id')
 
-    # Print a summary so we can verify the data loaded correctly
-    print(f"Dataset shape: {df.shape}")
-    print(f"Number of genres: {df['track_genre'].nunique()}")
-    print(f"Sample:\n{df[feature_cols].head()}")
+    if verbose:
+        print(f"Dataset shape: {df.shape}")
+        print(f"Number of genres: {df['track_genre'].nunique()}")
+        print(f"Sample:\n{df[feature_cols].head()}")
 
     return df, feature_cols

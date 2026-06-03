@@ -30,7 +30,8 @@ def recommend_tracks(
     df,
     top_n=5,
     feature_matrix=None,
-    score_weights=None
+    score_weights=None,
+    source_track_id=None
 ):
     if len(embeddings) != len(df):
         raise ValueError(
@@ -46,13 +47,16 @@ def recommend_tracks(
     if score_weights is not None:
         weights.update(score_weights)
 
-    search_name = _normalize_song_name(song_name)
-    normalized_track_names = df["track_name"].fillna("").map(_normalize_song_name)
+    if source_track_id is not None:
+        matches = df[df["track_id"].astype(str) == str(source_track_id)]
+    else:
+        search_name = _normalize_song_name(song_name)
+        normalized_track_names = df["track_name"].fillna("").map(_normalize_song_name)
 
-    matches = df[normalized_track_names == search_name]
+        matches = df[normalized_track_names == search_name]
 
-    if len(matches) == 0:
-        matches = df[normalized_track_names.str.contains(search_name, na=False)]
+        if len(matches) == 0:
+            matches = df[normalized_track_names.str.contains(search_name, na=False)]
 
     if len(matches) == 0:
         print("Song not found.")
@@ -102,7 +106,7 @@ def recommend_tracks(
 
     top_indices = np.argsort(final_score)[::-1][:top_n]
 
-    columns = ["track_name", "artists", "track_genre"]
+    columns = ["track_id", "track_name", "artists", "track_genre"]
     if "genre_group" in df.columns:
         columns.append("genre_group")
 

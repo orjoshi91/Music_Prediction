@@ -53,3 +53,12 @@ that blend from the command line:
 ```bash
 python src/run_recommendation.py "Blinding Lights" --popularity-weight 0.30 --feature-weight 0.30 --embedding-weight 0.35 --genre-weight 0.05
 ```
+
+## Simple Frontend
+
+```bash
+python web_app.py
+```
+
+Then open `http://127.0.0.1:8787`. The page uses the saved embeddings file,
+so run `python src/main.py` once first if `data/song_embeddings.npz` is missing.

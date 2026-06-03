@@ -2,10 +2,10 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Run music recommender",
-      "type": "python",
+      "name": "Run music recommender app",
+      "type": "debugpy",
       "request": "launch",
-      "program": "${workspaceFolder}/src/main.py",
+      "program": "${workspaceFolder}/app.py",
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal",
       "python": "${workspaceFolder}/.venv/bin/python"

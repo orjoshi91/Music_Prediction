@@ -338,6 +338,8 @@ HTML = """<!doctype html>
             "<span class=\\"metric\\">Embedding " + song.embedding.toFixed(3) + "</span>" +
             "<span class=\\"metric\\">Features " + song.features.toFixed(3) + "</span>" +
             "<span class=\\"metric\\">Popularity " + song.popularity_match.toFixed(3) + "</span>" +
+            "<span class=\\"metric\\">Genre " + (song.genre_group_match ? "match" : "near") + "</span>" +
+            "<span class=\\"metric\\">Exact " + (song.exact_genre_match ? "match" : "near") + "</span>" +
             "<span class=\\"metric\\">" + song.track_genre + "</span>" +
             "<span class=\\"metric\\">" + song.genre_group + "</span>" +
           "</div>";
@@ -518,7 +520,14 @@ def serialize_song(song):
         "genre_group": song["genre_group"],
     }
 
-    for key in ["score", "embedding", "features", "popularity_match"]:
+    for key in [
+        "score",
+        "embedding",
+        "features",
+        "popularity_match",
+        "genre_group_match",
+        "exact_genre_match",
+    ]:
         if key in song:
             output[key] = float(song[key])
 

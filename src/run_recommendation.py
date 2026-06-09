@@ -57,26 +57,32 @@ def parse_args():
     parser.add_argument(
         "--embedding-weight",
         type=float,
-        default=0.45,
+        default=0.55,
         help="Weight for neural embedding similarity."
     )
     parser.add_argument(
         "--feature-weight",
         type=float,
-        default=0.30,
+        default=0.25,
         help="Weight for raw audio feature similarity."
     )
     parser.add_argument(
         "--popularity-weight",
         type=float,
-        default=0.20,
-        help="Weight for similar popularity."
+        default=0.05,
+        help="Weight for similar popularity. Lower values allow more niche songs."
     )
     parser.add_argument(
         "--genre-weight",
         type=float,
+        default=0.10,
+        help="Weight for matching broad genre group."
+    )
+    parser.add_argument(
+        "--exact-genre-weight",
+        type=float,
         default=0.05,
-        help="Weight for matching genre group."
+        help="Weight for matching the original Spotify genre label."
     )
     return parser.parse_args()
 
@@ -113,6 +119,7 @@ def main():
             "features": args.feature_weight,
             "popularity": args.popularity_weight,
             "genre": args.genre_weight,
+            "exact_genre": args.exact_genre_weight,
         }
     )
     print_recommendations(source_song, recommendations)

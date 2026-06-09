@@ -3,12 +3,12 @@
   "configurations": [
     {
       "name": "Run music recommender app",
-      "type": "debugpy",
+      "type": "python",
       "request": "launch",
-      "program": "${workspaceFolder}/app.py",
+      "program": "${workspaceFolder}/run_app.py",
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal",
-      "python": "${workspaceFolder}/.venv/bin/python"
+      "justMyCode": true
     }
   ]
 }

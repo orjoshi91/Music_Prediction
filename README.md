@@ -46,12 +46,14 @@ You can change how many songs are shown:
 python src/run_recommendation.py "Blinding Lights" --top-n 10
 ```
 
-The recommendation score blends neural embedding similarity, raw audio feature
-similarity, popularity similarity, and a small genre-group bonus. You can tune
-that blend from the command line:
+The recommendation score now favors neural embedding similarity, with smaller
+weights for raw audio feature similarity and popularity. It also gives a boost
+to songs from the same broad genre group and the same original Spotify genre,
+which helps niche songs surface when they are musically close. You can tune that
+blend from the command line:
 
 ```bash
-python src/run_recommendation.py "Blinding Lights" --popularity-weight 0.30 --feature-weight 0.30 --embedding-weight 0.35 --genre-weight 0.05
+python src/run_recommendation.py "Blinding Lights" --popularity-weight 0.05 --feature-weight 0.25 --embedding-weight 0.55 --genre-weight 0.10 --exact-genre-weight 0.05
 ```
 
 ## Simple Frontend

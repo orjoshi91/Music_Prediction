@@ -2,10 +2,11 @@ import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 
 DEFAULT_SCORE_WEIGHTS = {
-    "embedding": 0.45,
-    "features": 0.30,
-    "popularity": 0.20,
-    "genre": 0.05,
+    "embedding": 0.55,
+    "features": 0.25,
+    "popularity": 0.05,
+    "genre": 0.10,
+    "exact_genre": 0.05,
 }
 
 
@@ -102,6 +103,14 @@ def recommend_tracks(
     else:
         genre_bonus = np.zeros(len(df))
 
+    if "track_genre" in df.columns:
+        exact_genre_bonus = (
+            df["track_genre"].to_numpy() == source_song["track_genre"]
+        ).astype(float)
+        final_score += weights["exact_genre"] * exact_genre_bonus
+    else:
+        exact_genre_bonus = np.zeros(len(df))
+
     final_score[song_position] = -1
 
     top_indices = np.argsort(final_score)[::-1][:top_n]
@@ -122,6 +131,20 @@ def recommend_tracks(
             3 if feature_matrix is not None else 2,
             "popularity_match",
             popularity_similarity[top_indices]
+        )
+
+    if "genre_group" in df.columns:
+        recommendations.insert(
+            len(recommendations.columns),
+            "genre_group_match",
+            genre_bonus[top_indices]
+        )
+
+    if "track_genre" in df.columns:
+        recommendations.insert(
+            len(recommendations.columns),
+            "exact_genre_match",
+            exact_genre_bonus[top_indices]
         )
 
     return source_song, recommendations
@@ -150,6 +173,12 @@ def print_recommendations(source_song, recommendations):
 
         if "popularity_match" in song:
             score_parts.append(f"Popularity match: {song['popularity_match']:.3f}")
+
+        if "genre_group_match" in song:
+            score_parts.append(f"Genre group match: {song['genre_group_match']:.0f}")
+
+        if "exact_genre_match" in song:
+            score_parts.append(f"Exact genre match: {song['exact_genre_match']:.0f}")
 
         print(
             f"{rank}. {song['track_name']} by {song['artists']}\n"

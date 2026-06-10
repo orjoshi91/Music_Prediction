@@ -202,9 +202,9 @@ Personal Reflection: [Add Jackson's reflection here.]
 
 **Ovi Joshi**
 
-Tasks and Contributions: Implemented the neural network architecture, trained the model, tuned hyperparameters, and developed recommendation system logic.
+Tasks and Contributions: implemented the neural network architecture, trained the model, tuned hyperparameters, generated song embeddings, evaluated recommendation quality using Precision@K and Hit Rate@K metrics, and developed the recommendation system logic based on embedding similarity.
 
-Personal Reflection: [Add Ovi's reflection here.]
+Personal Reflection: This project gave me valuable experience applying machine learning concepts to a real-world recommendation problem. I learned how neural networks can be used not only for classification but also for generating embeddings that capture meaningful relationships between data points. One of the most challenging parts was tuning hyperparameters and improving model performance while avoiding overfitting. Through experimentation with different architectures, dropout rates, learning rates, and training settings, I gained a deeper understanding of how design choices affect model accuracy and recommendation quality. Overall, this project strengthened my skills in Python, TensorFlow, data preprocessing, and model evaluation, while showing me how machine learning techniques are used in real recommendation systems.
 
 **Johanna Sanchez**
 
